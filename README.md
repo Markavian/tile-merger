@@ -5,8 +5,9 @@ The tile merger is a GUI application that takes a folder full of image files and
 
 * **Requires .NET 2.0 to run**
 
+![Image](c-sharp/build/2011-11-29 Tile Merger preview c1.png)
 
-Version history:
+Version history
 ---------------
 
 ### Release c1 
