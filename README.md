@@ -12,7 +12,20 @@ Download [TileMerger_rel_c1.zip](https://cdn.rawgit.com/Markavian/tile-merger/bb
 * Open and extract the files from the zip
 * Run `TileMerger.exe`
 
+### How to use
+
 ![Image](c-sharp/build/2011-11-29 Tile Merger preview c1.png)
+
+* **Source directory** - browse to a folder full of images that you want to merge
+* **Target file** - name the file you want to create after merging the images
+* **Number of Rows / Columns** - the number of rows or columns to fill before wrapping - this changes depending on the **Tiling Direction**
+* **Filename filter** - a pattern to match against, filtering only the files that match the filter. Leave blank for all files.
+* **Tiling Direction** 
+  * Left to Right - Fill a row from left to right before moving down
+  * Top to Bottom - Fill a column from top to bottom before moving right
+* **Remember these settings** - remembers all the settings in the form
+* **Process Images** - Attempts to merge the supplied images and save to the `Target file` path
+* **Quit** - Closes the application
 
 Version history
 ---------------
