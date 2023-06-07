@@ -6,6 +6,7 @@ The tile merger is a GUI application that takes a folder full of image files and
 Latest Release
 --------------
 Download [TileMerger_rel_c1.zip](https://cdn.rawgit.com/Markavian/tile-merger/bb84593c5712c202e2c602a40f13bf8234361b4b/c-sharp/releases/TileMerger_rel_c1.zip) (34Kb)
+
 * **Requires .NET 2.0 to run**
 
 ### Installation
@@ -14,7 +15,7 @@ Download [TileMerger_rel_c1.zip](https://cdn.rawgit.com/Markavian/tile-merger/bb
 
 ### How to use
 
-![Image](c-sharp/build/2011-11-29 Tile Merger preview c1.png)
+![image](./c-sharp/build/2011-11-29%20Tile%20Merger%20preview%20c1.png)
 
 * **Source directory** - browse to a folder full of images that you want to merge
 * **Target file** - name the file you want to create after merging the images
