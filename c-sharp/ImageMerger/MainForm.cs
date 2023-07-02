@@ -16,8 +16,8 @@
         private Button buttonSetTarget;
         private CheckBox checkboxRememberSettings;
         private IContainer components;
-        private FolderBrowserDialog dialogFindFolder;
-        private SaveFileDialog dialogSetTarget;
+        private readonly FolderBrowserDialog dialogFindFolder;
+        private readonly SaveFileDialog dialogSetTarget;
         private Label label1;
         private Label label2;
         private Label labelNumberDirection;
@@ -25,7 +25,6 @@
         private Label labelInformation;
         private Label labelProcess;
         private NumericUpDown numericUpDownColumns;
-        private const string REGISTRY_KEY_PATH = @"Software\mkv25\Tile Merger\";
         private TextBox textboxFilter;
         private TextBox textboxSource;
         private TextBox textboxTarget;
@@ -44,7 +43,7 @@
             this.UpdateFilecountMessage();
         }
 
-        private void buttonProcessImages_Click(object sender, EventArgs e)
+        private void ButtonProcessImages_Click(object sender, EventArgs e)
         {
             this.labelInformation.Text = "Processing...";
             TileMerger merger = new TileMerger();
@@ -62,7 +61,7 @@
             int columnCount = (int) this.numericUpDownColumns.Value;
             if (fileTarget == "")
             {
-                this.buttonSetTarget_Click(this, new EventArgs());
+                this.ButtonSetTarget_Click(this, new EventArgs());
                 fileTarget = this.textboxTarget.Text;
                 if (fileTarget == "Not set")
                 {
@@ -77,12 +76,12 @@
             }
         }
 
-        private void buttonQuit_Click(object sender, EventArgs e)
+        private void ButtonQuit_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void buttonSetSource_Click(object sender, EventArgs e)
+        private void ButtonSetSource_Click(object sender, EventArgs e)
         {
             if (this.dialogFindFolder.ShowDialog(this) == DialogResult.OK)
             {
@@ -90,7 +89,7 @@
             }
         }
 
-        private void buttonSetTarget_Click(object sender, EventArgs e)
+        private void ButtonSetTarget_Click(object sender, EventArgs e)
         {
             this.dialogSetTarget.Filter = "PNG Image files (*.png)|*.png|All files (*.*)|*.*";
             if (this.dialogSetTarget.ShowDialog(this) == DialogResult.OK)
@@ -164,7 +163,7 @@
             this.textboxSource.ReadOnly = true;
             this.textboxSource.Size = new System.Drawing.Size(225, 20);
             this.textboxSource.TabIndex = 6;
-            this.textboxSource.TextChanged += new System.EventHandler(this.textboxSource_TextChanged);
+            this.textboxSource.TextChanged += new System.EventHandler(this.TextboxSource_TextChanged);
             // 
             // textboxTarget
             // 
@@ -185,7 +184,7 @@
             this.buttonSetSource.TabIndex = 1;
             this.buttonSetSource.Text = "Browse";
             this.buttonSetSource.UseVisualStyleBackColor = false;
-            this.buttonSetSource.Click += new System.EventHandler(this.buttonSetSource_Click);
+            this.buttonSetSource.Click += new System.EventHandler(this.ButtonSetSource_Click);
             // 
             // buttonSetTarget
             // 
@@ -196,7 +195,7 @@
             this.buttonSetTarget.TabIndex = 2;
             this.buttonSetTarget.Text = "Browse";
             this.buttonSetTarget.UseVisualStyleBackColor = false;
-            this.buttonSetTarget.Click += new System.EventHandler(this.buttonSetTarget_Click);
+            this.buttonSetTarget.Click += new System.EventHandler(this.ButtonSetTarget_Click);
             // 
             // checkboxRememberSettings
             // 
@@ -218,7 +217,7 @@
             this.buttonProcessImages.TabIndex = 5;
             this.buttonProcessImages.Text = "Process Images";
             this.buttonProcessImages.UseVisualStyleBackColor = false;
-            this.buttonProcessImages.Click += new System.EventHandler(this.buttonProcessImages_Click);
+            this.buttonProcessImages.Click += new System.EventHandler(this.ButtonProcessImages_Click);
             // 
             // buttonQuit
             // 
@@ -230,7 +229,7 @@
             this.buttonQuit.TabIndex = 8;
             this.buttonQuit.Text = "Quit";
             this.buttonQuit.UseVisualStyleBackColor = false;
-            this.buttonQuit.Click += new System.EventHandler(this.buttonQuit_Click);
+            this.buttonQuit.Click += new System.EventHandler(this.ButtonQuit_Click);
             // 
             // labelNumberDirection
             // 
@@ -282,7 +281,7 @@
             this.textboxFilter.Size = new System.Drawing.Size(78, 20);
             this.textboxFilter.TabIndex = 3;
             this.toolTipController.SetToolTip(this.textboxFilter, "Only files containing this filter (lowercase check) will be merged");
-            this.textboxFilter.TextChanged += new System.EventHandler(this.textboxFilter_TextChanged);
+            this.textboxFilter.TextChanged += new System.EventHandler(this.TextboxFilter_TextChanged);
             // 
             // label4
             // 
@@ -318,7 +317,7 @@
             this.radioButtonHorizontal.TabStop = true;
             this.radioButtonHorizontal.Text = "Left to Right";
             this.radioButtonHorizontal.UseVisualStyleBackColor = true;
-            this.radioButtonHorizontal.CheckedChanged += new System.EventHandler(this.radioButtonHorizontal_CheckedChanged);
+            this.radioButtonHorizontal.CheckedChanged += new System.EventHandler(this.RadioButtonHorizontal_CheckedChanged);
             // 
             // radioButtonVertical
             // 
@@ -331,7 +330,7 @@
             this.radioButtonVertical.TabStop = true;
             this.radioButtonVertical.Text = "Top to Bottom";
             this.radioButtonVertical.UseVisualStyleBackColor = true;
-            this.radioButtonVertical.CheckedChanged += new System.EventHandler(this.radioButtonVertical_CheckedChanged);
+            this.radioButtonVertical.CheckedChanged += new System.EventHandler(this.RadioButtonVertical_CheckedChanged);
             // 
             // groupBoxTilingDirection
             // 
@@ -368,8 +367,9 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.ShowIcon = false;
-            this.Text = "Tile Merger (Release c1)";
+            this.Text = "Tile Merger (Release 1.0.0)";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownColumns)).EndInit();
             this.groupBoxTilingDirection.ResumeLayout(false);
             this.groupBoxTilingDirection.PerformLayout();
@@ -385,11 +385,7 @@
 
         private void ReadRegistryKey(string keyName)
         {
-            RegistryKey key = Registry.CurrentUser.OpenSubKey(keyName);
-            if (key == null)
-            {
-                key = Registry.CurrentUser.CreateSubKey(keyName);
-            }
+            RegistryKey key = Registry.CurrentUser.OpenSubKey(keyName) ?? Registry.CurrentUser.CreateSubKey(keyName);
             this.textboxSource.Text = (string) key.GetValue("sourceFolder", "Not set");
             this.textboxTarget.Text = (string) key.GetValue("targetFile", "Not set");
             this.numericUpDownColumns.Value = decimal.Parse((string)key.GetValue("numberOfColumns", "" + ((int)this.numericUpDownColumns.Value)));
@@ -399,12 +395,12 @@
             this.checkboxRememberSettings.Checked = bool.Parse((string) key.GetValue("rememberSettings", "false"));
         }
 
-        private void textboxFilter_TextChanged(object sender, EventArgs e)
+        private void TextboxFilter_TextChanged(object sender, EventArgs e)
         {
             this.UpdateFilecountMessage();
         }
 
-        private void textboxSource_TextChanged(object sender, EventArgs e)
+        private void TextboxSource_TextChanged(object sender, EventArgs e)
         {
             this.UpdateFilecountMessage();
         }
@@ -454,14 +450,19 @@
             }
         }
 
-        private void radioButtonHorizontal_CheckedChanged(object sender, EventArgs e)
+        private void RadioButtonHorizontal_CheckedChanged(object sender, EventArgs e)
         {
             RedrawForm();
         }
 
-        private void radioButtonVertical_CheckedChanged(object sender, EventArgs e)
+        private void RadioButtonVertical_CheckedChanged(object sender, EventArgs e)
         {
             RedrawForm();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

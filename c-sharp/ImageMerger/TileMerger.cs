@@ -33,10 +33,12 @@
             int rowCount = (int)Math.Ceiling((double)(((double)listOfTileBitmaps.Count) / ((double)columnCount)));
             if (!horizontalTiling)
             {
+#pragma warning disable IDE0180 // Use tuple to swap values
                 int temp = rowCount;
                 rowCount = columnCount;
                 columnCount = temp;
-            }            
+#pragma warning restore IDE0180 // Use tuple to swap values
+            }
             Bitmap image = new Bitmap(columnCount * width, rowCount * height, PixelFormat.Format32bppArgb);
             Graphics graphics = Graphics.FromImage(image);
             SolidBrush brush = new SolidBrush(Color.FromArgb(0, 0xff, 240, 200));

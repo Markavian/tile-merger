@@ -46,6 +46,9 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <EmbeddedResource Include="ImageMerger\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -59,8 +62,6 @@
     <Compile Include="ImageMerger\ImageLoader.cs" />
     <Compile Include="ImageMerger\TileMerger.cs" />
     <Compile Include="ImageMerger\Properties\Settings.cs" />
-    <EmbeddedResource Include="ImageMerger.Properties.Resources.resources" />
-    <EmbeddedResource Include="ImageMerger.MainForm.resources" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
