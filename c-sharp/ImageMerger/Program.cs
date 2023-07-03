@@ -24,19 +24,9 @@ namespace ImageMerger
             }
             else
             {
-                WriteLine("");
-                WriteLine("Tile Merger");
-                // Process the arguments
-                foreach (string arg in args)
-                {
-                    WriteLine("Argument: " + arg);
-                }
+                var cli = new CommandLineInterface(args);
+                cli.ProcessArgs();
             }
-        }
-
-        private static void WriteLine(string line)
-        {
-            Console.WriteLine(line);
         }
     }
 }

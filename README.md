@@ -28,6 +28,27 @@ Download [TileMerger_rel_c1.zip](https://cdn.rawgit.com/Markavian/tile-merger/bb
 * **Process Images** - Attempts to merge the supplied images and save to the `Target file` path
 * **Quit** - Closes the application
 
+
+### Command Line Mode
+
+New as of July 2023, you can use TilerMerger from the command line.
+
+```
+>TileMerger.exe --help
+Tile Merger 1.0
+Supported arguments:
+
+--src="<path>"          Source folder to find files in
+--imgs="f1.png,f2.png"  Comma separated list of files, overrides src, will still be filtered
+--dest="<path>"         Destination file path to output to, defaults to ./TiledImages_x{cols}_{td|lr}.png
+--filter="string"       Filter string, inclusive match
+--cols=6                Number of columns before wrapping
+--td=lr|tb              Tiling Direction
+--help                  Show help and version info
+
+Website: https://github.com/Markavian/tile-merger
+```
+
 Version history
 ---------------
 

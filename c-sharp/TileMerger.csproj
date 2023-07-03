@@ -57,6 +57,7 @@
     <Reference Include="System.Drawing" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Global.cs" />
+    <Compile Include="ImageMerger\CommandLineInterface.cs" />
     <Compile Include="ImageMerger\Program.cs" />
     <Compile Include="ImageMerger\MainForm.cs">
       <SubType>Form</SubType>
