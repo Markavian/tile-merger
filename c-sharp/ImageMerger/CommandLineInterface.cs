@@ -40,6 +40,10 @@ namespace ImageMerger
 
         internal void ProcessArgs()
         {
+            TileMergerArgs tileMergerArgs = new TileMergerArgs(this.args);
+            WriteLine("");
+            WriteLine("Processed args:");
+            WriteLine(tileMergerArgs.ToString());
             DisplayHelp();
         }
 

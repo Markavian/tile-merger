@@ -26,6 +26,7 @@ namespace ImageMerger
             {
                 var cli = new CommandLineInterface(args);
                 cli.ProcessArgs();
+                Environment.Exit(0);
             }
         }
     }
