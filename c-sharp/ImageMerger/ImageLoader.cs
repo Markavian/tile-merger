@@ -20,24 +20,22 @@
             }
         }
 
-        public static List<string> ListFiles(string folderPath, string filter)
+        public static List<string> ListFiles(string folderPath, string whitelistFilter, string blacklistFilter="")
         {
             string[] files = Directory.GetFiles(folderPath);
+            Console.WriteLine("Found {0} files in " + folderPath, files.Length);
             Array.Sort<string>(files);
             List<string> list = new List<string>();
             foreach (string str in files)
             {
-                if (filter.Length > 0)
+                if (str.ToLower().Contains(blacklistFilter))
                 {
-                    if (str.ToLower().Contains(filter))
-                    {
-                        list.Add(str);
-                    }
+                    break;
                 }
-                else
-                {
-                    list.Add(str);
+                if (whitelistFilter.Length > 0 && !str.ToLower().Contains(whitelistFilter)) {
+                    break;
                 }
+                list.Add(str);
             }
             return list;
         }
@@ -57,11 +55,11 @@
                     catch (Exception)
                     {
                     }
-                    Console.WriteLine("{0} loaded.", str);
+                    Console.WriteLine("  {0} loaded.", str);
                 }
                 else
                 {
-                    Console.WriteLine("{0} is not a valid file or directory.", str);
+                    Console.WriteLine("  {0} is not a valid file or directory.", str);
                 }
             }
             return list;

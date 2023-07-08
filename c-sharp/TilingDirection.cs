@@ -1,5 +1,12 @@
-﻿internal enum TilingDirection
+﻿internal class TilingDirection
 {
-    LeftRight = 1,
-    TopDown = 2
+    public static TilingDirection LeftRight = new TilingDirection("lr");
+    public static TilingDirection TopDown = new TilingDirection("td");
+
+    private string direction;
+
+    TilingDirection(string direction)
+    {
+        this.direction = direction;
+    }
 }

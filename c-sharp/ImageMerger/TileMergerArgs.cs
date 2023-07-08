@@ -22,7 +22,7 @@ namespace ImageMerger
         private List<NamedArg> namedArgList;
 
         private string sourceDirectory;
-        private string destinationDirectory;
+        private string destinationPath;
         private List<string> imageList;
         private string filter;
         private int columns;
@@ -41,9 +41,9 @@ namespace ImageMerger
             }
 
             sourceDirectory = Find("src");
-            destinationDirectory = Find("dest");
+            destinationPath = Find("dest");
             string images = Find("imgs") ?? "";
-            imageList = new List<string>(images.Split(','));
+            imageList = images.Length > 0 ? new List<string>(images.Split(',')) : new List<string>();
             filter = Find("filter");
             if (!int.TryParse(Find("cols"), out columns))
             {
@@ -56,7 +56,7 @@ namespace ImageMerger
         }
 
         public string SourceDirectory { get => sourceDirectory; set => sourceDirectory = value; }
-        public string DestinationDirectory { get => destinationDirectory; set => destinationDirectory = value; }
+        public string DestinationPath { get => destinationPath; set => destinationPath = value; }
         public List<string> ImageList { get => imageList; set => imageList = value; }
         public string Filter { get => filter; set => filter = value; }
         public int Columns { get => columns; set => columns = value; }
@@ -85,7 +85,7 @@ namespace ImageMerger
             {
                 "Tile Merger args:",
                 "  Source directory:       " + NonEmptyString(SourceDirectory, Directory.GetCurrentDirectory()),
-                "  Destination directory:  " + NonEmptyString(DestinationDirectory, Directory.GetCurrentDirectory()),
+                "  Destination path:       " + NonEmptyString(DestinationPath, Directory.GetCurrentDirectory()),
                 "  Image list:             " + NonEmptyString(string.Join(", ", ImageList.ToArray())),
                 "  Filter:                 " + NonEmptyString(Filter),
                 "  Columns:                " + Columns.ToString(),

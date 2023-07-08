@@ -49,6 +49,14 @@ Supported arguments:
 Website: https://github.com/Markavian/tile-merger
 ```
 
+# Local Test Command
+
+Example of using a dev build from the `./c-sharp/` folder:
+
+```
+.\bin\Release\TileMerger.exe --src="./sample-images/" --dest="sample-outputs/bananas.png" --filter="banana" --cols="3" --td="tb"
+```
+
 Version history
 ---------------
 

@@ -24,10 +24,10 @@ namespace ImageMerger
                 "Tile Merger 1.0",
                 "Supported arguments:",
                 "",
-                "--src=\"<path>\"          Source folder to find files in",
-                "--imgs=\"f1.png,f2.png\"  Comma separated list of files, overrides src, will still be filtered",
-                "--dest=\"<path>\"         Destination file path to output to, defaults to./ TiledImages_x{ cols}_{ td | lr}.png",
-                "--filter=\"string\"       Filter string, inclusive match",
+                "--src=\"<path>\"            Source folder to find files in; also used as base directory to find relative imgs",
+                "--imgs=\"f1.png,f2.png\"    Comma separated list of files, works in tandem with src; file list will still be filtered",
+                "--dest=\"<path>\"           Destination file path to output to, defaults to ./ TiledImages_x{ cols}_{ td | lr}.png",
+                "--filter=\"string\"         Filter string, inclusive match",
                 "--cols=6                  Number of columns before wrapping",
                 "--td=lr|tb                Tiling Direction - left-right (lr) or (top-bottom) (tb)",
                 "--help                    Show help and version info",
@@ -44,7 +44,14 @@ namespace ImageMerger
             WriteLine("");
             WriteLine("Processed args:");
             WriteLine(tileMergerArgs.ToString());
-            DisplayHelp();
+
+            if (tileMergerArgs.ShowHelp)
+            {
+                DisplayHelp();
+            } else
+            {
+                TileMerger.ProcessTileMergerArgs(tileMergerArgs);
+            }
         }
 
         private void WriteLine(string line)

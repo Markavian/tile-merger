@@ -5,7 +5,10 @@
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.IO;
+    using System.Net.NetworkInformation;
+    using System.Runtime.InteropServices;
     using System.Windows.Forms;
+    using static System.Net.WebRequestMethods;
 
     public class TileMerger
     {
@@ -71,7 +74,67 @@
             return image;
         }
 
-        public bool ProcessDirectoryToFile(Form parentForm, string directory, string fileTarget, int columnCount, string filter, bool horizontalTiling=true)
+        internal static bool ProcessTileMergerArgs(TileMergerArgs tileMergerArgs)
+        {
+            Bitmap bitmap;
+            Console.WriteLine("Processing Tile Merger arguments...");
+            if (!Directory.Exists(tileMergerArgs.SourceDirectory))
+            {
+                Console.WriteLine("⚠️ Folder not found");
+                Console.WriteLine("The specified source directory " + tileMergerArgs.SourceDirectory + " does not exist.");
+                return false;
+            }
+            string defaultDestinationPath = "./TiledImages_x" + tileMergerArgs.Columns + "_" + tileMergerArgs.TilingDirection + ".png";
+            if (tileMergerArgs.DestinationPath == "")
+            {
+                Console.WriteLine("⚠️ Operation stopped");
+                Console.WriteLine("An invalid target file was set.");
+                return false;
+            }
+            string relativeDir = tileMergerArgs.SourceDirectory;
+            if (relativeDir.Length > 0) {
+                Directory.SetCurrentDirectory(tileMergerArgs.SourceDirectory);
+                relativeDir = "./";
+            }
+            List<string> sources = tileMergerArgs.ImageList.Count > 0 ? tileMergerArgs.ImageList : ImageLoader.ListFiles(relativeDir, tileMergerArgs.Filter, defaultDestinationPath);
+            Console.WriteLine("Attempting to load {0} images from" + String.Join(", ", sources.ToArray()), sources.Count);
+            Console.WriteLine("  Whitelist filter: '" + tileMergerArgs.Filter + "'");
+            Console.WriteLine("  Blacklist filter: '" + defaultDestinationPath + "'");
+            List<Bitmap> bitmaps = ImageLoader.LoadImages(sources);
+            if (bitmaps.Count == 0)
+            {
+                Console.WriteLine("⚠️ Operation stopped");
+                Console.WriteLine("No images were found, could not create merged image.");
+                return false;
+            }
+            try
+            {
+                bitmap = MergeBitmaps(bitmaps, tileMergerArgs.Columns, tileMergerArgs.TilingDirection == TilingDirection.LeftRight);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("⚠️ Merge Bitmaps Exception");
+                Console.WriteLine(exception.Message);
+                ImageLoader.DisposeImages(bitmaps);
+                return false;
+            }
+            try
+            {
+                string finalDestination = tileMergerArgs.DestinationPath.Length > 0 ? tileMergerArgs.DestinationPath : defaultDestinationPath;
+                SaveImage(bitmap, finalDestination);
+            }
+            catch (Exception exception2)
+            {
+                Console.WriteLine("⚠️ Save Image Exception");
+                Console.WriteLine(exception2.Message);
+                return false;
+            }
+            Console.WriteLine("Merged " + bitmaps.Count + "images.");
+            ImageLoader.DisposeImages(bitmaps);
+            return true;
+        }
+
+        internal bool ProcessDirectoryToFile(Form parentForm, string directory, string fileTarget, int columnCount, string filter, bool horizontalTiling=true)
         {
             Bitmap bitmap;
             this.mergedImageCount = 0;
