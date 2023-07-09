@@ -32,7 +32,7 @@
                 {
                     break;
                 }
-                if (whitelistFilter.Length > 0 && !str.ToLower().Contains(whitelistFilter)) {
+                if (whitelistFilter != null && whitelistFilter.Length > 0 && !str.ToLower().Contains(whitelistFilter)) {
                     break;
                 }
                 list.Add(str);
@@ -43,23 +43,18 @@
         public static List<Bitmap> LoadImages(List<string> sortedFiles)
         {
             List<Bitmap> list = new List<Bitmap>();
-            foreach (string str in sortedFiles)
+            foreach (string filePath in sortedFiles)
             {
-                if (File.Exists(str))
+                string fullPath = Path.GetFullPath(filePath);
+                try
                 {
-                    try
-                    {
-                        Bitmap item = new Bitmap(str);
-                        list.Add(item);
-                    }
-                    catch (Exception)
-                    {
-                    }
-                    Console.WriteLine("  {0} loaded.", str);
+                    Bitmap item = new Bitmap(fullPath);
+                    list.Add(item);
+                    Console.WriteLine("  {0} loaded.", filePath);
                 }
-                else
+                catch (Exception e)
                 {
-                    Console.WriteLine("  {0} is not a valid file or directory.", str);
+                    Console.WriteLine("  {0} could not be loaded: {1} {2}", fullPath, e.Message, e.StackTrace);
                 }
             }
             return list;

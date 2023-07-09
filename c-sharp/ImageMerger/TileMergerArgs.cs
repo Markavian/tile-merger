@@ -73,7 +73,7 @@ namespace ImageMerger
             return null;
         }
 
-        private string NonEmptyString(string value, string defaultValue = "not-set")
+        public static string NonEmptyString(string value, string defaultValue = "not-set")
         {
             return (value == string.Empty || value == null) ? defaultValue : value;
         }

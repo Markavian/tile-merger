@@ -78,10 +78,11 @@
         {
             Bitmap bitmap;
             Console.WriteLine("Processing Tile Merger arguments...");
-            if (!Directory.Exists(tileMergerArgs.SourceDirectory))
+            string relativeDir = TileMergerArgs.NonEmptyString(tileMergerArgs.SourceDirectory, Directory.GetCurrentDirectory());
+            if (!Directory.Exists(relativeDir))
             {
                 Console.WriteLine("⚠️ Folder not found");
-                Console.WriteLine("The specified source directory " + tileMergerArgs.SourceDirectory + " does not exist.");
+                Console.WriteLine("The specified source directory (" + relativeDir + ") does not exist.");
                 return false;
             }
             string defaultDestinationPath = "./TiledImages_x" + tileMergerArgs.Columns + "_" + tileMergerArgs.TilingDirection + ".png";
@@ -91,13 +92,12 @@
                 Console.WriteLine("An invalid target file was set.");
                 return false;
             }
-            string relativeDir = tileMergerArgs.SourceDirectory;
+            string startingDir = Directory.GetCurrentDirectory();
             if (relativeDir.Length > 0) {
-                Directory.SetCurrentDirectory(tileMergerArgs.SourceDirectory);
-                relativeDir = "./";
+                Directory.SetCurrentDirectory(relativeDir);
             }
-            List<string> sources = tileMergerArgs.ImageList.Count > 0 ? tileMergerArgs.ImageList : ImageLoader.ListFiles(relativeDir, tileMergerArgs.Filter, defaultDestinationPath);
-            Console.WriteLine("Attempting to load {0} images from" + String.Join(", ", sources.ToArray()), sources.Count);
+            List<string> sources = tileMergerArgs.ImageList.Count > 0 ? tileMergerArgs.ImageList : ImageLoader.ListFiles(Directory.GetCurrentDirectory(), tileMergerArgs.Filter, defaultDestinationPath);
+            Console.WriteLine("Attempting to load {0} images from " + String.Join(", ", sources.ToArray()), sources.Count);
             Console.WriteLine("  Whitelist filter: '" + tileMergerArgs.Filter + "'");
             Console.WriteLine("  Blacklist filter: '" + defaultDestinationPath + "'");
             List<Bitmap> bitmaps = ImageLoader.LoadImages(sources);
@@ -118,9 +118,11 @@
                 ImageLoader.DisposeImages(bitmaps);
                 return false;
             }
+            string finalDestination = tileMergerArgs.DestinationPath.Length > 0 ? tileMergerArgs.DestinationPath : defaultDestinationPath;
             try
             {
-                string finalDestination = tileMergerArgs.DestinationPath.Length > 0 ? tileMergerArgs.DestinationPath : defaultDestinationPath;
+                Console.WriteLine("Created Image " + bitmap.Width + "x" + bitmap.Height + "px, Destination: " + finalDestination);
+                Directory.SetCurrentDirectory(startingDir);
                 SaveImage(bitmap, finalDestination);
             }
             catch (Exception exception2)
@@ -129,7 +131,7 @@
                 Console.WriteLine(exception2.Message);
                 return false;
             }
-            Console.WriteLine("Merged " + bitmaps.Count + "images.");
+            Console.WriteLine("Merged " + bitmaps.Count + " images; saved to: " + finalDestination);
             ImageLoader.DisposeImages(bitmaps);
             return true;
         }
