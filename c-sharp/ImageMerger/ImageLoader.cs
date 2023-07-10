@@ -24,18 +24,18 @@
         {
             string[] files = Directory.GetFiles(folderPath);
             Console.WriteLine("Found {0} files in " + folderPath, files.Length);
-            Array.Sort<string>(files);
+            // Console.WriteLine(String.Join(", ", files));
             List<string> list = new List<string>();
-            foreach (string str in files)
+            foreach (string filePath in files)
             {
-                if (str.ToLower().Contains(blacklistFilter))
+                if (blacklistFilter != null && filePath.ToLower().Contains(blacklistFilter.ToLower()))
                 {
-                    break;
+                    continue;
                 }
-                if (whitelistFilter != null && whitelistFilter.Length > 0 && !str.ToLower().Contains(whitelistFilter)) {
-                    break;
+                if (whitelistFilter != null && whitelistFilter.Length > 0 && !filePath.ToLower().Contains(whitelistFilter.ToLower())) {
+                    continue;
                 }
-                list.Add(str);
+                list.Add(filePath);
             }
             return list;
         }

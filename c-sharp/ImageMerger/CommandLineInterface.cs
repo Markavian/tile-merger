@@ -52,6 +52,7 @@ namespace ImageMerger
             {
                 TileMerger.ProcessTileMergerArgs(tileMergerArgs);
             }
+            WriteLine("Done!");
         }
 
         private void WriteLine(string line)

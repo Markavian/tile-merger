@@ -15,7 +15,7 @@
     <StartWorkingDirectory>C:\Users\johnb\Local\tile-merger\c-sharp\</StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <StartArguments>--src="./sample-images/" --dest="sample-outputs/bananas.png" --filter="banana" --cols="3" --td="tb"</StartArguments>
+    <StartArguments>.\bin\Release\TileMerger.exe --src="./sample-images/"</StartArguments>
     <StartWorkingDirectory>C:\Users\johnb\Local\tile-merger\c-sharp\</StartWorkingDirectory>
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
   </PropertyGroup>

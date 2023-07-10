@@ -53,16 +53,28 @@ Website: https://github.com/Markavian/tile-merger
 
 Examples using a dev build from the `./c-sharp/` folder:
 
-### Merge all images containing the word banana across 3 columns, tiling top to bottom
+### Merge all images containing the word banana across 1 columns, tiling top to bottom
 
 ```
-.\bin\Release\TileMerger.exe --src="./sample-images/" --dest="sample-outputs/bananas.png" --filter="banana" --cols="3" --td="tb"
+.\bin\Release\TileMerger.exe --src="./sample-images/" --dest="sample-outputs/bananas_1x5.png" --filter="banana" --cols="1" --td="tb"
+```
+
+### Merge all images containing the word banana across 5 columns, tiling left to right
+
+```
+.\bin\Release\TileMerger.exe --src="./sample-images/" --dest="sample-outputs/bananas_5x1.png" --filter="banana" --cols="5" --td="lr"
+```
+
+### Merge all images containing the word melon (watermelon, and melon) across 2 columns, tiling top to bottom
+
+```
+.\bin\Release\TileMerger.exe --src="./sample-images/" --dest="sample-outputs/melons_2x5.png" --filter="melon" --cols="2" --td="tb"
 ```
 
 ### Merge all images containing the number 00003 across 3 columns, tiling left to right
 
 ```
-.\bin\Release\TileMerger.exe --src="./sample-images/" --dest="sample-outputs/mixed_3x3.png" --filter="lemon" --cols="3" --td="lr"
+.\bin\Release\TileMerger.exe --src="./sample-images/" --dest="sample-outputs/mixed_3x3.png" --filter="00003" --cols="3" --td="lr"
 ```
 
 ### Merge all images across 5 columns, tiling left to right
@@ -74,7 +86,7 @@ Examples using a dev build from the `./c-sharp/` folder:
 ### Merge a list of four specific images across 2 columns
 
 ```
-.\bin\Release\TileMerger.exe --imgs="./sample-images/banana_00001.png,./sample-images/pear_00001.png,./sample-images/plum_00001.png,./sample-images/tomato_00001.png" --dest="sample-outputs/mixed_2x2.png" --cols="2"
+.\bin\Release\TileMerger.exe --imgs="./sample-images/banana_00002_.png,./sample-images/pear_00001_.png,./sample-images/plum_00001_.png,./sample-images/tomato_00001_.png" --dest="sample-outputs/mixed_2x2.png" --cols="2"
 ```
 
 Version history

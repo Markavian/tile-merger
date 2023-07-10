@@ -34,14 +34,6 @@
                 columnCount = listOfTileBitmaps.Count;
             }
             int rowCount = (int)Math.Ceiling((double)(((double)listOfTileBitmaps.Count) / ((double)columnCount)));
-            if (!horizontalTiling)
-            {
-#pragma warning disable IDE0180 // Use tuple to swap values
-                int temp = rowCount;
-                rowCount = columnCount;
-                columnCount = temp;
-#pragma warning restore IDE0180 // Use tuple to swap values
-            }
             Bitmap image = new Bitmap(columnCount * width, rowCount * height, PixelFormat.Format32bppArgb);
             Graphics graphics = Graphics.FromImage(image);
             SolidBrush brush = new SolidBrush(Color.FromArgb(0, 0xff, 240, 200));
@@ -85,7 +77,7 @@
                 Console.WriteLine("The specified source directory (" + relativeDir + ") does not exist.");
                 return false;
             }
-            string defaultDestinationPath = "./TiledImages_x" + tileMergerArgs.Columns + "_" + tileMergerArgs.TilingDirection + ".png";
+            string defaultDestinationPath = "TiledImages_x" + tileMergerArgs.Columns + "_" + tileMergerArgs.TilingDirection.Value + ".png";
             if (tileMergerArgs.DestinationPath == "")
             {
                 Console.WriteLine("⚠️ Operation stopped");
@@ -97,7 +89,7 @@
                 Directory.SetCurrentDirectory(relativeDir);
             }
             List<string> sources = tileMergerArgs.ImageList.Count > 0 ? tileMergerArgs.ImageList : ImageLoader.ListFiles(Directory.GetCurrentDirectory(), tileMergerArgs.Filter, defaultDestinationPath);
-            Console.WriteLine("Attempting to load {0} images from " + String.Join(", ", sources.ToArray()), sources.Count);
+            Console.WriteLine("Attempting to load {0} images...", sources.Count);
             Console.WriteLine("  Whitelist filter: '" + tileMergerArgs.Filter + "'");
             Console.WriteLine("  Blacklist filter: '" + defaultDestinationPath + "'");
             List<Bitmap> bitmaps = ImageLoader.LoadImages(sources);
@@ -109,29 +101,34 @@
             }
             try
             {
+                Console.WriteLine("🎨 Tiling direction: {0}, Bitmaps: {1}, Columns: {2}", tileMergerArgs.TilingDirection.Value, bitmaps.Count, tileMergerArgs.Columns);
                 bitmap = MergeBitmaps(bitmaps, tileMergerArgs.Columns, tileMergerArgs.TilingDirection == TilingDirection.LeftRight);
             }
-            catch (Exception exception)
+            catch (Exception mergeImagesException)
             {
                 Console.WriteLine("⚠️ Merge Bitmaps Exception");
-                Console.WriteLine(exception.Message);
+                Console.WriteLine(mergeImagesException.Message);
                 ImageLoader.DisposeImages(bitmaps);
                 return false;
             }
-            string finalDestination = tileMergerArgs.DestinationPath.Length > 0 ? tileMergerArgs.DestinationPath : defaultDestinationPath;
             try
             {
+                string destinationPath = TileMergerArgs.NonEmptyString(tileMergerArgs.DestinationPath, Directory.GetCurrentDirectory());
+                Console.WriteLine("Destination path: {0}", destinationPath);
+                string finalDestination = (tileMergerArgs.DestinationPath != null && tileMergerArgs.DestinationPath.Length > 0) ? tileMergerArgs.DestinationPath : Path.GetFullPath(Path.Combine(destinationPath, defaultDestinationPath));
                 Console.WriteLine("Created Image " + bitmap.Width + "x" + bitmap.Height + "px, Destination: " + finalDestination);
                 Directory.SetCurrentDirectory(startingDir);
                 SaveImage(bitmap, finalDestination);
+                Console.WriteLine("Merged " + bitmaps.Count + " images; saved to: " + finalDestination);
             }
-            catch (Exception exception2)
+            catch (Exception saveImageException)
             {
                 Console.WriteLine("⚠️ Save Image Exception");
-                Console.WriteLine(exception2.Message);
+                Console.WriteLine(saveImageException.Message);
+                Console.WriteLine(saveImageException.StackTrace);
+                ImageLoader.DisposeImages(bitmaps);
                 return false;
             }
-            Console.WriteLine("Merged " + bitmaps.Count + " images; saved to: " + finalDestination);
             ImageLoader.DisposeImages(bitmaps);
             return true;
         }

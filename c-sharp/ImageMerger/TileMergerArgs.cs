@@ -49,7 +49,7 @@ namespace ImageMerger
             {
                 columns = 5;
             }
-            tilingDirection = Find("td") == "td"
+            tilingDirection = Find("td") == "td" || Find("td") == "tb"
                 ? TilingDirection.TopDown
                 : TilingDirection.LeftRight;
             showHelp = Find("help") != null;

@@ -50,7 +50,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="ImageMerger\TileMergerArgs.cs" />
-    <Compile Include="TilingDirection.cs" />
+    <Compile Include="ImageMerger\TilingDirection.cs" />
     <EmbeddedResource Include="ImageMerger\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
