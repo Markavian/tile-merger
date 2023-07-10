@@ -20,24 +20,22 @@
             }
         }
 
-        public static List<string> ListFiles(string folderPath, string filter)
+        public static List<string> ListFiles(string folderPath, string whitelistFilter, string blacklistFilter="")
         {
             string[] files = Directory.GetFiles(folderPath);
-            Array.Sort<string>(files);
+            Console.WriteLine("Found {0} files in " + folderPath, files.Length);
+            // Console.WriteLine(String.Join(", ", files));
             List<string> list = new List<string>();
-            foreach (string str in files)
+            foreach (string filePath in files)
             {
-                if (filter.Length > 0)
+                if (blacklistFilter != null && blacklistFilter.Length > 0 && filePath.ToLower().Contains(blacklistFilter.ToLower()))
                 {
-                    if (str.ToLower().Contains(filter))
-                    {
-                        list.Add(str);
-                    }
+                    continue;
                 }
-                else
-                {
-                    list.Add(str);
+                if (whitelistFilter != null && whitelistFilter.Length > 0 && !filePath.ToLower().Contains(whitelistFilter.ToLower())) {
+                    continue;
                 }
+                list.Add(filePath);
             }
             return list;
         }
@@ -45,23 +43,18 @@
         public static List<Bitmap> LoadImages(List<string> sortedFiles)
         {
             List<Bitmap> list = new List<Bitmap>();
-            foreach (string str in sortedFiles)
+            foreach (string filePath in sortedFiles)
             {
-                if (File.Exists(str))
+                string fullPath = Path.GetFullPath(filePath);
+                try
                 {
-                    try
-                    {
-                        Bitmap item = new Bitmap(str);
-                        list.Add(item);
-                    }
-                    catch (Exception)
-                    {
-                    }
-                    Console.WriteLine("{0} loaded.", str);
+                    Bitmap item = new Bitmap(fullPath);
+                    list.Add(item);
+                    Console.WriteLine("  {0} loaded.", filePath);
                 }
-                else
+                catch (Exception e)
                 {
-                    Console.WriteLine("{0} is not a valid file or directory.", str);
+                    Console.WriteLine("  {0} could not be loaded: {1} {2}", fullPath, e.Message, e.StackTrace);
                 }
             }
             return list;

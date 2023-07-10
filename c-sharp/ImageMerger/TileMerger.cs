@@ -30,13 +30,7 @@
             {
                 columnCount = listOfTileBitmaps.Count;
             }
-            int rowCount = (int)Math.Ceiling((double)(((double)listOfTileBitmaps.Count) / ((double)columnCount)));
-            if (!horizontalTiling)
-            {
-                int temp = rowCount;
-                rowCount = columnCount;
-                columnCount = temp;
-            }            
+            int rowCount = (int)Math.Ceiling((double)(listOfTileBitmaps.Count / ((double)columnCount)));
             Bitmap image = new Bitmap(columnCount * width, rowCount * height, PixelFormat.Format32bppArgb);
             Graphics graphics = Graphics.FromImage(image);
             SolidBrush brush = new SolidBrush(Color.FromArgb(0, 0xff, 240, 200));
@@ -46,7 +40,7 @@
             {
                 foreach (Bitmap tileBitmap in listOfTileBitmaps)
                 {
-                    int col = (int)Math.Floor((double)(((double)n) / ((double)columnCount)));
+                    int col = (int)Math.Floor((double)(n / ((double)columnCount)));
                     int row = n % columnCount;
                     Point location = new Point(((row * width) + (width / 2)) - (tileBitmap.Width / 2), ((col * height) + (height / 2)) - (tileBitmap.Height / 2));
                     Size size = new Size(tileBitmap.Width, tileBitmap.Height);
@@ -58,7 +52,7 @@
             {
                 foreach (Bitmap tileBitmap in listOfTileBitmaps)
                 {
-                    int row = (int)Math.Floor((double)(((double)n) / ((double)rowCount)));
+                    int row = (int)Math.Floor((double)(n / ((double)rowCount)));
                     int col = n % rowCount;
                     Point location = new Point(((row * width) + (width / 2)) - (tileBitmap.Width / 2), ((col * height) + (height / 2)) - (tileBitmap.Height / 2));
                     Size size = new Size(tileBitmap.Width, tileBitmap.Height);
@@ -69,7 +63,74 @@
             return image;
         }
 
-        public bool ProcessDirectoryToFile(Form parentForm, string directory, string fileTarget, int columnCount, string filter, bool horizontalTiling=true)
+        internal static bool ProcessTileMergerArgs(TileMergerArgs tileMergerArgs)
+        {
+            Bitmap bitmap;
+            Console.WriteLine("Processing Tile Merger arguments...");
+            string relativeDir = TileMergerArgs.NonEmptyString(tileMergerArgs.SourceDirectory, Directory.GetCurrentDirectory());
+            if (!Directory.Exists(relativeDir))
+            {
+                Console.WriteLine("⚠️ Folder not found");
+                Console.WriteLine("The specified source directory (" + relativeDir + ") does not exist.");
+                return false;
+            }
+            string defaultDestinationPath = "TiledImages_x" + tileMergerArgs.Columns + "_" + tileMergerArgs.TilingDirection.Value + ".png";
+            if (tileMergerArgs.DestinationPath == "")
+            {
+                Console.WriteLine("⚠️ Operation stopped");
+                Console.WriteLine("An invalid target file was set.");
+                return false;
+            }
+            string startingDir = Directory.GetCurrentDirectory();
+            if (relativeDir.Length > 0) {
+                Directory.SetCurrentDirectory(relativeDir);
+            }
+            List<string> sources = tileMergerArgs.ImageList.Count > 0 ? tileMergerArgs.ImageList : ImageLoader.ListFiles(Directory.GetCurrentDirectory(), tileMergerArgs.Filter, defaultDestinationPath);
+            Console.WriteLine("Attempting to load {0} images...", sources.Count);
+            Console.WriteLine("  Whitelist filter: '" + tileMergerArgs.Filter + "'");
+            Console.WriteLine("  Blacklist filter: '" + defaultDestinationPath + "'");
+            List<Bitmap> bitmaps = ImageLoader.LoadImages(sources);
+            if (bitmaps.Count == 0)
+            {
+                Console.WriteLine("⚠️ Operation stopped");
+                Console.WriteLine("No images were found, could not create merged image.");
+                return false;
+            }
+            try
+            {
+                Console.WriteLine("🎨 Tiling direction: {0}, Bitmaps: {1}, Columns: {2}", tileMergerArgs.TilingDirection.Value, bitmaps.Count, tileMergerArgs.Columns);
+                bitmap = MergeBitmaps(bitmaps, tileMergerArgs.Columns, tileMergerArgs.TilingDirection == TilingDirection.LeftRight);
+            }
+            catch (Exception mergeImagesException)
+            {
+                Console.WriteLine("⚠️ Merge Bitmaps Exception");
+                Console.WriteLine(mergeImagesException.Message);
+                ImageLoader.DisposeImages(bitmaps);
+                return false;
+            }
+            try
+            {
+                string destinationPath = TileMergerArgs.NonEmptyString(tileMergerArgs.DestinationPath, Directory.GetCurrentDirectory());
+                Console.WriteLine("Destination path: {0}", destinationPath);
+                string finalDestination = (tileMergerArgs.DestinationPath != null && tileMergerArgs.DestinationPath.Length > 0) ? tileMergerArgs.DestinationPath : Path.GetFullPath(Path.Combine(destinationPath, defaultDestinationPath));
+                Console.WriteLine("Created Image " + bitmap.Width + "x" + bitmap.Height + "px, Destination: " + finalDestination);
+                Directory.SetCurrentDirectory(startingDir);
+                SaveImage(bitmap, finalDestination);
+                Console.WriteLine("Merged " + bitmaps.Count + " images; saved to: " + finalDestination);
+            }
+            catch (Exception saveImageException)
+            {
+                Console.WriteLine("⚠️ Save Image Exception");
+                Console.WriteLine(saveImageException.Message);
+                Console.WriteLine(saveImageException.StackTrace);
+                ImageLoader.DisposeImages(bitmaps);
+                return false;
+            }
+            ImageLoader.DisposeImages(bitmaps);
+            return true;
+        }
+
+        internal bool ProcessDirectoryToFile(Form parentForm, string directory, string fileTarget, int columnCount, string filter, bool horizontalTiling=true)
         {
             Bitmap bitmap;
             this.mergedImageCount = 0;
@@ -83,10 +144,12 @@
                 MessageBox.Show(parentForm, "An invalid target file was set.", "Operation stopped", MessageBoxButtons.OK);
                 return false;
             }
-            List<Bitmap> bitmaps = ImageLoader.LoadImages(ImageLoader.ListFiles(directory, filter));
+            List<string> files = ImageLoader.ListFiles(directory, filter);
+            List<Bitmap> bitmaps = ImageLoader.LoadImages(files);
             if (bitmaps.Count == 0)
             {
-                MessageBox.Show(parentForm, "No images were found, could not create merged image.", "Operation stopped", MessageBoxButtons.OK);
+                MessageBox.Show(parentForm, "No images were found, could not create merged image. Filter: " + filter + " Directory: " + directory, "Operation stopped", MessageBoxButtons.OK);
+                MessageBox.Show(parentForm, "Files in folder:\n" + String.Join("\n", files.ToArray()), "Files in folder", MessageBoxButtons.OK);
                 return false;
             }
             try

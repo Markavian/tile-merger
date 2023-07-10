@@ -28,6 +28,67 @@ Download [TileMerger_rel_c1.zip](https://cdn.rawgit.com/Markavian/tile-merger/bb
 * **Process Images** - Attempts to merge the supplied images and save to the `Target file` path
 * **Quit** - Closes the application
 
+
+### Command Line Mode
+
+New as of July 2023, you can use TilerMerger from the command line.
+
+```
+>TileMerger.exe --help
+Tile Merger 1.0
+Supported arguments:
+
+--src="<path>"          Source folder to find files in
+--imgs="f1.png,f2.png"  Comma separated list of files, overrides src, will still be filtered
+--dest="<path>"         Destination file path to output to, defaults to ./TiledImages_x{cols}_{td|lr}.png
+--filter="string"       Filter string, inclusive match
+--cols=6                Number of columns before wrapping
+--td=lr|tb              Tiling Direction
+--help                  Show help and version info
+
+Website: https://github.com/Markavian/tile-merger
+```
+
+# Local Test Command
+
+Examples using a dev build from the `./c-sharp/` folder:
+
+### Merge all images containing the word banana across 1 columns, tiling top to bottom
+
+```
+.\bin\Release\TileMerger.exe --src="./sample-images/" --dest="sample-outputs/bananas_1x5.png" --filter="banana" --cols="1" --td="tb"
+```
+
+### Merge all images containing the word banana across 5 columns, tiling left to right
+
+```
+.\bin\Release\TileMerger.exe --src="./sample-images/" --dest="sample-outputs/bananas_5x1.png" --filter="banana" --cols="5" --td="lr"
+```
+
+### Merge all images containing the word melon (watermelon, and melon) across 2 columns, tiling top to bottom
+
+```
+.\bin\Release\TileMerger.exe --src="./sample-images/" --dest="sample-outputs/melons_2x5.png" --filter="melon" --cols="2" --td="tb"
+```
+
+### Merge all images containing the number 00003 across 3 columns, tiling left to right
+
+```
+.\bin\Release\TileMerger.exe --src="./sample-images/" --dest="sample-outputs/mixed_3x3.png" --filter="00003" --cols="3" --td="lr"
+```
+
+### Merge all images across 5 columns, tiling left to right
+
+```
+.\bin\Release\TileMerger.exe --src="./sample-images/" --dest="sample-outputs/mixed_5x9.png" --cols="5" --td="lr"
+```
+
+### Merge a list of four specific images across 2 columns
+
+```
+.\bin\Release\TileMerger.exe --imgs="./sample-images/banana_00002_.png,./sample-images/pear_00001_.png,./sample-images/plum_00001_.png,./sample-images/tomato_00001_.png" --dest="sample-outputs/mixed_2x2.png" --cols="2"
+```
+
 Version history
 ---------------
 
