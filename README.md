@@ -104,11 +104,32 @@ TileMerger.exe --src="./sample-images/" --dest="sample-outputs/mixed_3x3.png" --
 Version history
 ---------------
 
-### Release c1 
+### Release 1.0.0 (July 2023)
+
+- Added command line arguments
+- Fully migrated to Github
+- Fixed bug with tiling direction to work as intended
+
+![2023-07-10 Tile Merger preview 1 0 0](https://github.com/Markavian/tile-merger/assets/6341696/1dce99a6-0557-4abc-84c2-ef54011512bb)
+
+```
+Tile Merger 1.0
+Supported arguments:
+
+--src="<path>"            Source folder to find files in; also used as base directory to find relative imgs
+--imgs="f1.png,f2.png"    Comma separated list of files, works in tandem with src; file list will still be filtered
+--dest="<path>"           Destination file path to output to, defaults to ./ TiledImages_x{ cols}_{ td | lr}.png
+--filter="string"         Filter string, inclusive match
+--cols=6                  Number of columns before wrapping
+--td=lr|tb                Tiling Direction - left-right (lr) or (top-bottom) (tb)
+--help                    Show help and version info
+```
+
+### Release c1 (November 2008)
 * Added Tiling Direction - Left to Right (Original Mode), Top to Bottom (New)
 * Switch between (Number of Columns) and (Number of Rows)
 
-### Release b1
+### Release b1 (August 2008)
 * Added filter text box
 * Added a tooltips to number of columns and filter boxes
 * Asks for file target if Not set
@@ -116,7 +137,7 @@ Version history
 * Fixed series of crashing bugs
 * Filters out non-image files when processed
 
-### Release a1
+### Release a1 (2008)
 * Initial release
 * Supports:
   * Source folder
