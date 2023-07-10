@@ -5,10 +5,7 @@
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.IO;
-    using System.Net.NetworkInformation;
-    using System.Runtime.InteropServices;
     using System.Windows.Forms;
-    using static System.Net.WebRequestMethods;
 
     public class TileMerger
     {
@@ -33,7 +30,7 @@
             {
                 columnCount = listOfTileBitmaps.Count;
             }
-            int rowCount = (int)Math.Ceiling((double)(((double)listOfTileBitmaps.Count) / ((double)columnCount)));
+            int rowCount = (int)Math.Ceiling((double)(listOfTileBitmaps.Count / ((double)columnCount)));
             Bitmap image = new Bitmap(columnCount * width, rowCount * height, PixelFormat.Format32bppArgb);
             Graphics graphics = Graphics.FromImage(image);
             SolidBrush brush = new SolidBrush(Color.FromArgb(0, 0xff, 240, 200));
@@ -43,7 +40,7 @@
             {
                 foreach (Bitmap tileBitmap in listOfTileBitmaps)
                 {
-                    int col = (int)Math.Floor((double)(((double)n) / ((double)columnCount)));
+                    int col = (int)Math.Floor((double)(n / ((double)columnCount)));
                     int row = n % columnCount;
                     Point location = new Point(((row * width) + (width / 2)) - (tileBitmap.Width / 2), ((col * height) + (height / 2)) - (tileBitmap.Height / 2));
                     Size size = new Size(tileBitmap.Width, tileBitmap.Height);
@@ -55,7 +52,7 @@
             {
                 foreach (Bitmap tileBitmap in listOfTileBitmaps)
                 {
-                    int row = (int)Math.Floor((double)(((double)n) / ((double)rowCount)));
+                    int row = (int)Math.Floor((double)(n / ((double)rowCount)));
                     int col = n % rowCount;
                     Point location = new Point(((row * width) + (width / 2)) - (tileBitmap.Width / 2), ((col * height) + (height / 2)) - (tileBitmap.Height / 2));
                     Size size = new Size(tileBitmap.Width, tileBitmap.Height);
@@ -147,10 +144,12 @@
                 MessageBox.Show(parentForm, "An invalid target file was set.", "Operation stopped", MessageBoxButtons.OK);
                 return false;
             }
-            List<Bitmap> bitmaps = ImageLoader.LoadImages(ImageLoader.ListFiles(directory, filter));
+            List<string> files = ImageLoader.ListFiles(directory, filter);
+            List<Bitmap> bitmaps = ImageLoader.LoadImages(files);
             if (bitmaps.Count == 0)
             {
-                MessageBox.Show(parentForm, "No images were found, could not create merged image.", "Operation stopped", MessageBoxButtons.OK);
+                MessageBox.Show(parentForm, "No images were found, could not create merged image. Filter: " + filter + " Directory: " + directory, "Operation stopped", MessageBoxButtons.OK);
+                MessageBox.Show(parentForm, "Files in folder:\n" + String.Join("\n", files.ToArray()), "Files in folder", MessageBoxButtons.OK);
                 return false;
             }
             try

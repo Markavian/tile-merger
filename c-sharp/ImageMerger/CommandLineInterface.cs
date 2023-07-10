@@ -21,7 +21,7 @@ namespace ImageMerger
         {
             var lines = new[] {
                 "",
-                "Tile Merger 1.0",
+                "Tile Merger 1.0.0",
                 "Supported arguments:",
                 "",
                 "--src=\"<path>\"            Source folder to find files in; also used as base directory to find relative imgs",

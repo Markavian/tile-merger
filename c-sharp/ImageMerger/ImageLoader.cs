@@ -28,7 +28,7 @@
             List<string> list = new List<string>();
             foreach (string filePath in files)
             {
-                if (blacklistFilter != null && filePath.ToLower().Contains(blacklistFilter.ToLower()))
+                if (blacklistFilter != null && blacklistFilter.Length > 0 && filePath.ToLower().Contains(blacklistFilter.ToLower()))
                 {
                     continue;
                 }
