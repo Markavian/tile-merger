@@ -1,5 +1,5 @@
-Tile Merger - November 2011
-Release c1
+Tile Merger - Updated July 2023
+Release 1.0.0
 
 Requires .NET 2.0 to run
 
@@ -7,11 +7,30 @@ The tile merger is a GUI application that takes a folder full of image files and
 
 Version history:
 
-Release c1
+Release 1.0
+  o Added command line arguments
+  o Fully migrated to Github: https://github.com/Markavian/tile-merger
+  o Fixed bug with tiling direction to work as intended
+
+Tile Merger 1.0
+Supported arguments:
+
+--src="<path>"            Source folder to find files in; also used as base directory to find relative imgs
+--imgs="f1.png,f2.png"    Comma separated list of files, works in tandem with src; file list will still be filtered
+--dest="<path>"           Destination file path to output to, defaults to ./ TiledImages_x{ cols}_{ td | lr}.png
+--filter="string"         Filter string, inclusive match
+--cols=6                  Number of columns before wrapping
+--td=lr|tb                Tiling Direction - left-right (lr) or (top-bottom) (tb)
+--help                    Show help and version info
+
+Website: https://github.com/Markavian/tile-merger
+
+
+Release c1 (November 2008)
   o Added Tiling Direction - Left to Right (Original Mode), Top to Bottom (New)
   o Switch between (Number of Columns) and (Number of Rows)
 
-Release b1
+Release b1 (August 2008)
   o Added filter text box
   o Added a tooltips to number of columns and filter boxes
   o Asks for file target if Not set
@@ -19,7 +38,7 @@ Release b1
   o Fixed series of crashing bugs
   o Filters out non-image files when processed
 
-Release a1
+Release a1 (2008)
  Initial release
  Supports
   o Source folder
@@ -27,16 +46,17 @@ Release a1
   o Number of columns
   o Remember settings
 
-Supports alpha channels. Tested on Windows XP.
+Supports alpha channels. Tested on Windows XP, and Windows 11.
 
 Written by John Beech
-http://mkv25.net/
+https://mkv25.net/
+https://github.com/johnbeech/
 
 Used on:
-http://mkv25.net/dfma/
+https://mkv25.net/dfma/
 
 Contact: csharp@mkv25.net
 
-Available at:
-http://mkv25.net/showcase/
+Historically available at:
+https://mkv25.net/showcase/
 

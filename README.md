@@ -5,7 +5,7 @@ The tile merger is a GUI application that takes a folder full of image files and
 
 Latest Release
 --------------
-Download [TileMerger_rel_c1.zip](https://cdn.rawgit.com/Markavian/tile-merger/bb84593c5712c202e2c602a40f13bf8234361b4b/c-sharp/releases/TileMerger_rel_c1.zip) (34Kb)
+Download [TileMerger_rel_c1.zip](./releases/TileMerger_1.0.0.zip) (28Kb)
 
 * **Requires .NET 2.0 to run**
 
@@ -15,7 +15,7 @@ Download [TileMerger_rel_c1.zip](https://cdn.rawgit.com/Markavian/tile-merger/bb
 
 ### How to use
 
-![image](./c-sharp/build/2011-11-29%20Tile%20Merger%20preview%20c1.png)
+![image](./c-sharp/build/2023-07-10%20Tile%20Merger%20preview%201.0.0.png)
 
 * **Source directory** - browse to a folder full of images that you want to merge
 * **Target file** - name the file you want to create after merging the images
@@ -49,33 +49,41 @@ Supported arguments:
 Website: https://github.com/Markavian/tile-merger
 ```
 
-# Local Test Command
+## Example Commands
 
 Examples using a dev build from the `./c-sharp/` folder:
 
 ### Merge all images containing the word banana across 1 columns, tiling top to bottom
 
 ```
-.\bin\Release\TileMerger.exe --src="./sample-images/" --dest="sample-outputs/bananas_1x5.png" --filter="banana" --cols="1" --td="tb"
+TileMerger.exe --src="./sample-images/" --dest="sample-outputs/bananas_1x5.png" --filter="banana" --cols="1" --td="tb"
 ```
+
+![bananas_1x5.png](./c-sharp/sample-outputs/bananas_1x5.png)
 
 ### Merge all images containing the word banana across 5 columns, tiling left to right
 
 ```
-.\bin\Release\TileMerger.exe --src="./sample-images/" --dest="sample-outputs/bananas_5x1.png" --filter="banana" --cols="5" --td="lr"
+TileMerger.exe --src="./sample-images/" --dest="sample-outputs/bananas_5x1.png" --filter="banana" --cols="5" --td="lr"
 ```
+
+![bananas_1x5.png](./c-sharp/sample-outputs/bananas_5x1.png)
 
 ### Merge all images containing the word melon (watermelon, and melon) across 2 columns, tiling top to bottom
 
 ```
-.\bin\Release\TileMerger.exe --src="./sample-images/" --dest="sample-outputs/melons_2x5.png" --filter="melon" --cols="2" --td="tb"
+TileMerger.exe --src="./sample-images/" --dest="sample-outputs/melons_2x5.png" --filter="melon" --cols="2" --td="tb"
 ```
+
+![bananas_1x5.png](./c-sharp/sample-outputs/melons_2x5.png)
 
 ### Merge all images containing the number 00003 across 3 columns, tiling left to right
 
 ```
-.\bin\Release\TileMerger.exe --src="./sample-images/" --dest="sample-outputs/mixed_3x3.png" --filter="00003" --cols="3" --td="lr"
+TileMerger.exe --src="./sample-images/" --dest="sample-outputs/mixed_3x3.png" --filter="00003" --cols="3" --td="lr"
 ```
+
+![bananas_1x5.png](./c-sharp/sample-outputs/mixed_3x3.png)
 
 ### Merge all images across 5 columns, tiling left to right
 
@@ -83,11 +91,15 @@ Examples using a dev build from the `./c-sharp/` folder:
 .\bin\Release\TileMerger.exe --src="./sample-images/" --dest="sample-outputs/mixed_5x9.png" --cols="5" --td="lr"
 ```
 
+![bananas_1x5.png](./c-sharp/sample-outputs/mixed_5x9.png)
+
 ### Merge a list of four specific images across 2 columns
 
 ```
 .\bin\Release\TileMerger.exe --imgs="./sample-images/banana_00002_.png,./sample-images/pear_00001_.png,./sample-images/plum_00001_.png,./sample-images/tomato_00001_.png" --dest="sample-outputs/mixed_2x2.png" --cols="2"
 ```
+
+![mixed_2x2.png](./c-sharp/sample-outputs/mixed_2x2.png)
 
 Version history
 ---------------
@@ -116,10 +128,11 @@ Version history
 Credits
 -------
 Written by John Beech
-* http://mkv25.net/
+* https://mkv25.net/
+* https://github.com/johnbeech/
 
 Used on:
-* http://mkv25.net/dfma/
+* https://mkv25.net/dfma/
 
 Contact
 -------
@@ -132,6 +145,6 @@ Please create an issue or send feedback here on github!
 * https://github.com/Markavian/tile-merger
 
 ### Older versions:
-* http://mkv25.net/showcase/
+* https://mkv25.net/showcase/
 
 
