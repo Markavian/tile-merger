@@ -5,7 +5,7 @@ The tile merger is a GUI or CLI application that takes a folder full of image fi
 
 Latest Release
 --------------
-Download [TileMerger_rel_c1.zip](./releases/TileMerger_1.0.0.zip) (28Kb)
+Download [TileMerger_1.1.0.zip](./releases/TileMerger_1.1.0.zip) (39Kb)
 
 * **Requires .NET 2.0 to run**
 
@@ -15,7 +15,7 @@ Download [TileMerger_rel_c1.zip](./releases/TileMerger_1.0.0.zip) (28Kb)
 
 ### How to use
 
-![image](./c-sharp/build/2023-07-10%20Tile%20Merger%20preview%201.0.0.png)
+![image](./c-sharp/build/2023-11-03%20Tile%20Merger%20preview%201.1.0.png)
 
 * **Source directory** - browse to a folder full of images that you want to merge
 * **Target file** - name the file you want to create after merging the images
@@ -31,7 +31,7 @@ Download [TileMerger_rel_c1.zip](./releases/TileMerger_1.0.0.zip) (28Kb)
 
 ### Command Line Mode
 
-New as of July 2023, you can use TilerMerger from the command line.
+New as of version 1.0.0 (July 2023), you can use TilerMerger from the command line.
 
 ```
 >TileMerger.exe --help
@@ -151,6 +151,9 @@ Credits
 Written by John Beech
 * https://mkv25.net/
 * https://github.com/johnbeech/
+
+With contributions and thanks to XtheOne:
+- https://github.com/XtheOne
 
 Used on:
 * https://mkv25.net/dfma/

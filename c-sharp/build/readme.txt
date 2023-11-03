@@ -1,5 +1,5 @@
 Tile Merger - Updated July 2023
-Release 1.0.0
+Release 1.1.0
 
 Requires .NET 2.0 to run
 
@@ -7,7 +7,13 @@ The tile merger is a GUI application that takes a folder full of image files and
 
 Version history:
 
-Release 1.0
+Release 1.1.0
+
+  o Merged XtheOne's Numeric Sorting branch
+  o Example Key files F1 to F16 now are ordered correctly:
+    o F1 -> F9, F10, F11, instead of F1, F10, F11, F2 -> F9
+
+Release 1.0.0
   o Added command line arguments
   o Fully migrated to Github: https://github.com/Markavian/tile-merger
   o Fixed bug with tiling direction to work as intended
@@ -52,10 +58,17 @@ Written by John Beech
 https://mkv25.net/
 https://github.com/johnbeech/
 
+With contributions and thanks to XtheOne:
+- https://github.com/XtheOne
+
 Used on:
 https://mkv25.net/dfma/
 
-Contact: csharp@mkv25.net
+Contact
+  o csharp@mkv25.net
+  o github@mkv25.net
+
+Or raise issue at https://github.com/Markavian/tile-merger/issues
 
 Historically available at:
 https://mkv25.net/showcase/
